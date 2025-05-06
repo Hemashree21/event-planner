@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, getDay, isSameMonth, isSameDay } from "date-fns";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Menu } from "lucide-react";
+import Image from "next/image";
 
 // Types
 interface User {
@@ -347,7 +348,7 @@ const Index = () => {
   const [events, setEvents] = useState<Event[]>(generateEvents());
   const [suggestions, setSuggestions] = useState<EventSuggestion[]>(mockEventSuggestions);
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [, setSelectedDate] = useState<Date | null>(null);
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isEventModalOpen, setIsEventModalOpen] = useState(false);
@@ -547,11 +548,6 @@ const Index = () => {
     }
   };
 
-  const fadeVariants = {
-    hidden: { opacity: 0 },
-    visible: { opacity: 1 }
-  };
-
   const staggerContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -693,7 +689,9 @@ const Index = () => {
               alt={currentUser.name} 
               className="h-8 w-8 rounded-full border-2 border-white mr-2" 
             />
-            <button 
+            <button
+              type="submit"
+              title="Toggle Menu" 
               onClick={toggleMobileMenu}
               className="p-1 rounded-md hover:bg-teal-700 transition-colors"
             >
@@ -780,7 +778,7 @@ const Index = () => {
                 variants={itemVariants}
                 className="text-lg text-gray-600 mb-8"
               >
-                Create events, track who's coming, suggest new ideas, and keep everyone on the same page - all in one place.
+                Create events, track who&apos;s coming, suggest new ideas, and keep everyone on the same page - all in one place.
               </motion.p>
               
               <motion.div
@@ -1180,7 +1178,7 @@ const Index = () => {
           </div>
           <div className="bg-white rounded-lg shadow-md p-4">
             <h3 className="font-medium text-gray-700 mb-2">Top Location</h3>
-            <p className="text-xl font-bold text-teal-600">Sarah's Apartment</p>
+            <p className="text-xl font-bold text-teal-600">Sarah&apos;s Apartment</p>
             <p className="text-sm text-gray-500 mt-1">8 events hosted</p>
           </div>
         </div>
@@ -1225,6 +1223,8 @@ const Index = () => {
               <div className="border-b p-4 flex justify-between items-center">
                 <h3 className="text-xl font-semibold text-gray-800">Create New Event</h3>
                 <button
+                  type="submit"
+                  title="create event"
                   onClick={() => setIsCreateModalOpen(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
@@ -1258,6 +1258,7 @@ const Index = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Start Time</label>
                     <input
+                      aria-label="date"
                       type="datetime-local"
                       value={format(newEvent.startTime || new Date(), "yyyy-MM-dd'T'HH:mm")}
                       onChange={(e) => {
@@ -1270,6 +1271,7 @@ const Index = () => {
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">End Time</label>
                     <input
+                      aria-label="time"
                       type="datetime-local"
                       value={format(newEvent.endTime || new Date(), "yyyy-MM-dd'T'HH:mm")}
                       onChange={(e) => {
@@ -1347,6 +1349,8 @@ const Index = () => {
               <div className="border-b p-4 flex justify-between items-center">
                 <h3 className="text-xl font-semibold text-gray-800">{selectedEvent.title}</h3>
                 <button
+                  type="submit"
+                  title="Toggle Event"
                   onClick={() => setIsEventModalOpen(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
@@ -1389,7 +1393,7 @@ const Index = () => {
                 <p className="text-gray-700">{selectedEvent.description}</p>
                 
                 <div className="border-t border-b py-4">
-                  <h4 className="font-semibold text-gray-800 mb-3">Who's Coming?</h4>
+                  <h4 className="font-semibold text-gray-800 mb-3">Who&apos;s Coming?</h4>
                   <div className="flex space-x-4 mb-4">
                     <div className="text-center">
                       <div className="text-2xl font-bold text-teal-600">{goingCount}</div>
@@ -1464,7 +1468,7 @@ const Index = () => {
                       }`}
                       onClick={() => handleRSVP(selectedEvent.id, "declined")}
                     >
-                      Can't Go
+                      Can&apos;t Go
                     </motion.button>
                   </div>
                 </div>
@@ -1505,6 +1509,8 @@ const Index = () => {
               <div className="border-b p-4 flex justify-between items-center">
                 <h3 className="text-xl font-semibold text-gray-800">Suggest New Event</h3>
                 <button
+                  type="submit"
+                  title="Mobile View Open"
                   onClick={() => setIsSuggestionModalOpen(false)}
                   className="text-gray-400 hover:text-gray-600"
                 >
@@ -1699,7 +1705,7 @@ const Index = () => {
                       </div>
                       <span className="text-white text-sm font-medium">7 friends attending</span>
                     </div>
-                    <h3 className="text-white text-lg font-semibold mt-1">Movie Night at Alex's</h3>
+                    <h3 className="text-white text-lg font-semibold mt-1">Movie Night at Alex&apos;s</h3>
                   </div>
                 </div>
                 <div className="bg-white rounded-lg shadow-xl overflow-hidden transform -rotate-3 -mt-16 ml-20 border-8 border-white relative">
@@ -1883,7 +1889,7 @@ const Index = () => {
                 </div>
                 <h3 className="text-xl font-semibold text-gray-800 mb-3">Collect RSVPs</h3>
                 <p className="text-gray-600">
-                  Group members can easily respond with "Going," "Maybe," or "Can't Go." No more chasing people for responses.
+                  Group members can easily respond with &quot;Going,&quot; &quot;Maybe,&quot; or &quot;Can&apos;t Go.&quot; No more chasing people for responses.
                 </p>
               </motion.div>
               
@@ -1924,7 +1930,7 @@ const Index = () => {
                 What Our Users Say
               </h2>
               <p className="text-xl text-gray-600">
-                Join thousands of satisfied groups who've transformed their planning experience
+                Join thousands of satisfied groups who&apos;ve transformed their planning experience
               </p>
             </motion.div>
             
@@ -1939,17 +1945,19 @@ const Index = () => {
                   transition={{ delay: index * 0.1 }}
                 >
                   <div className="flex items-center mb-6">
-                    <img 
-                      src={testimonial.avatar} 
-                      alt={testimonial.name}
-                      className="w-12 h-12 rounded-full mr-4"
-                    />
+                  <Image 
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  width={48}
+                  height={48}
+                  className="rounded-full mr-4"
+                />
                     <div>
                       <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
                       <p className="text-gray-500 text-sm">{testimonial.role}</p>
                     </div>
                   </div>
-                  <p className="text-gray-600 italic">"{testimonial.content}"</p>
+                  <p className="text-gray-600 italic">&quot;{testimonial.content}&quot;</p>
                   <div className="mt-4 flex">
                     {[...Array(5)].map((_, i) => (
                       <svg key={i} className="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
@@ -1981,7 +1989,7 @@ const Index = () => {
                 Frequently Asked Questions
               </h2>
               <p className="text-xl text-gray-600">
-                Got questions? We've got answers.
+                Got questions? We&apos;ve got answers.
               </p>
             </motion.div>
             
@@ -2054,7 +2062,7 @@ const Index = () => {
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
             >
-              Join thousands of groups who've transformed how they plan events together.
+              Join thousands of groups who&apos;ve transformed how they plan events together.
             </motion.p>
             <motion.button
               initial={{ y: 10, opacity: 0 }}
